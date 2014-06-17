@@ -29,18 +29,18 @@ struct time_result test_extern(void)
     uint64_t start, end;
     int i, r;
 
-    start = libtime_wall();
+    start = libtime_cpu();
     for (i = 0, r = 0; i < 1000; i++) {
         r += add_ints__extern(i, 1000 - i);
     }
-    end = libtime_wall();
-    result.addtime = end - start;
-    start = libtime_wall();
+    end = libtime_cpu();
+    result.addtime = libtime_cpu_to_wall(end - start);
+    start = libtime_cpu();
     for (i = 0, r = 0; i < 1000; i++) {
         r += mul_ints__extern(i, 3);
     }
-    end = libtime_wall();
-    result.multime = end - start;
+    end = libtime_cpu();
+    result.multime = libtime_cpu_to_wall(end - start);
 
     return result;
 }
@@ -51,18 +51,18 @@ struct time_result test_extern_local(void)
     uint64_t start, end;
     int i, r;
 
-    start = libtime_wall();
+    start = libtime_cpu();
     for (i = 0, r = 0; i < 1000; i++) {
         r += add_ints__extern_local(i, 1000 - i);
     }
-    end = libtime_wall();
-    result.addtime = end - start;
-    start = libtime_wall();
+    end = libtime_cpu();
+    result.addtime = libtime_cpu_to_wall(end - start);
+    start = libtime_cpu();
     for (i = 0, r = 0; i < 1000; i++) {
         r += mul_ints__extern_local(i, 3);
     }
-    end = libtime_wall();
-    result.multime = end - start;
+    end = libtime_cpu();
+    result.multime = libtime_cpu_to_wall(end - start);
 
     return result;
 }
@@ -73,18 +73,18 @@ struct time_result test_static_inline(void)
     uint64_t start, end;
     int i, r;
 
-    start = libtime_wall();
+    start = libtime_cpu();
     for (i = 0, r = 0; i < 1000; i++) {
         r += add_ints__static_inline(i, 1000 - i);
     }
-    end = libtime_wall();
-    result.addtime = end - start;
-    start = libtime_wall();
+    end = libtime_cpu();
+    result.addtime = libtime_cpu_to_wall(end - start);
+    start = libtime_cpu();
     for (i = 0, r = 0; i < 1000; i++) {
         r += mul_ints__static_inline(i, 3);
     }
-    end = libtime_wall();
-    result.multime = end - start;
+    end = libtime_cpu();
+    result.multime = libtime_cpu_to_wall(end - start);
 
     return result;
 }
@@ -95,18 +95,18 @@ struct time_result test_extern_inline(void)
     uint64_t start, end;
     int i, r;
 
-    start = libtime_wall();
+    start = libtime_cpu();
     for (i = 0, r = 0; i < 1000; i++) {
         r += add_ints__extern_inline(i, 1000 - i);
     }
-    end = libtime_wall();
-    result.addtime = end - start;
-    start = libtime_wall();
+    end = libtime_cpu();
+    result.addtime = libtime_cpu_to_wall(end - start);
+    start = libtime_cpu();
     for (i = 0, r = 0; i < 1000; i++) {
         r += mul_ints__extern_inline(i, 3);
     }
-    end = libtime_wall();
-    result.multime = end - start;
+    end = libtime_cpu();
+    result.multime = libtime_cpu_to_wall(end - start);
 
     return result;
 }
@@ -117,18 +117,18 @@ struct time_result test_extern_inline_local(void)
     uint64_t start, end;
     int i, r;
 
-    start = libtime_wall();
+    start = libtime_cpu();
     for (i = 0, r = 0; i < 1000; i++) {
         r += add_ints__extern_inline_local(i, 1000 - i);
     }
-    end = libtime_wall();
-    result.addtime = end - start;
-    start = libtime_wall();
+    end = libtime_cpu();
+    result.addtime = libtime_cpu_to_wall(end - start);
+    start = libtime_cpu();
     for (i = 0, r = 0; i < 1000; i++) {
         r += mul_ints__extern_inline_local(i, 3);
     }
-    end = libtime_wall();
-    result.multime = end - start;
+    end = libtime_cpu();
+    result.multime = libtime_cpu_to_wall(end - start);
 
     return result;
 }
