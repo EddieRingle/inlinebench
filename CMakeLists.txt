@@ -22,6 +22,29 @@ option(IB_BUILD_WITH_O2  "Build with -O2" OFF)
 option(IB_BUILD_WITH_O3  "Build with -O3" OFF)
 option(IB_BUILD_WITH_LTO "Build with Link-time Optimizations" OFF)
 
+set(FORCE_STEP_DEFAULT "build")
+if(CMAKE_CONFIGURATION_TYPES)
+    set(FORCE_STEP_DEFAULT "configure")
+endif()
+
+set(FORCE_STEP ${FORCE_STEP_DEFAULT} CACHE STRING
+    "Should the top level projects force configure/build/isntall each make"
+)
+set_property(CACHE FORCE_STEP PROPERTY STRINGS OFF configure build install)
+
+if(FORCE_STEP STREQUAL configure)
+    set(dependee "update")
+elseif(FORCE_STEP STREQUAL build)
+    set(dependee "configure")
+elseif(FORCE_STEP STREQUAL install)
+    set(dependee "build")
+endif()
+
+set(FORCE_STEP_ARGS
+    DEPENDEES ${dependee}
+    DEPENDERS ${FORCE_STEP}
+)
+
 #
 # Modules/macros
 #
@@ -94,6 +117,13 @@ ExternalProject_Add(inlinebench
     SOURCE_DIR  ${IB_ROOT_DIR}/inlinebench
     INSTALL_DIR ${IB_TARGET_OUT_DIR}
 )
+if(FORCE_STEP)
+    ExternalProject_Add_Step(inlinebench forcebuild
+        COMMAND ${CMAKE_COMMAND} -E echo "Force build of inlinebench"
+        ${FORCE_STEP_ARGS}
+        ALWAYS 1
+    )
+endif()
 
 add_dependencies(inlinebench libtime)
 
