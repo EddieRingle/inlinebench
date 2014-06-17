@@ -67,7 +67,7 @@ target_include_directories(time
 )
 
 target_compile_options(time
-    PUBLIC ${libtime_CFOPTIMIZE} ${libtime_CFLAGS}
+    PRIVATE ${libtime_CFOPTIMIZE} ${libtime_CFLAGS}
 )
 
 install(TARGETS time EXPORT libtimeConfig

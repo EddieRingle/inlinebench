@@ -52,7 +52,7 @@ target_link_libraries(inlinebench
 )
 
 target_compile_options(inlinebench
-    PUBLIC ${inlinebench_CFLAGS}
+    PRIVATE ${inlinebench_CFLAGS}
 )
 
 install(TARGETS inlinebench
