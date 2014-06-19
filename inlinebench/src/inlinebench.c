@@ -29,124 +29,53 @@ struct time_result {
 
 #define LOOP_MAX 1000
 
+#define casefn(_ib_addfn, _ib_mulfn) \
+    { \
+        struct time_result result; \
+        uint64_t start, end; \
+        int i, r = 0; \
+\
+        start = libtime_cpu(); \
+        for (i = 0; i < LOOP_MAX; i++) { \
+            r += _ib_addfn(i, r); \
+        } \
+        end = libtime_cpu(); \
+        result.addresult = r; \
+        result.addtime = libtime_cpu_to_wall(end - start); \
+        start = libtime_cpu(); \
+        for (i = 0; i < LOOP_MAX; i++) { \
+            r += _ib_mulfn(i, r); \
+        } \
+        end = libtime_cpu(); \
+        result.mulresult = r; \
+        result.multime = libtime_cpu_to_wall(end - start); \
+\
+        return result; \
+    }
+
 struct time_result test_extern(void)
 {
-    struct time_result result;
-    uint64_t start, end;
-    int i, r = 0;
-
-    start = libtime_cpu();
-    for (i = 0; i < LOOP_MAX; i++) {
-        r += add_ints__extern(i, r);
-    }
-    end = libtime_cpu();
-    result.addresult = r;
-    result.addtime = libtime_cpu_to_wall(end - start);
-    start = libtime_cpu();
-    for (i = 0; i < LOOP_MAX; i++) {
-        r += mul_ints__extern(i, r);
-    }
-    end = libtime_cpu();
-    result.mulresult = r;
-    result.multime = libtime_cpu_to_wall(end - start);
-
-    return result;
+    casefn(add_ints__extern, mul_ints__extern);
 }
 
 struct time_result test_extern_local(void)
 {
-    struct time_result result;
-    uint64_t start, end;
-    int i, r = 0;
-
-    start = libtime_cpu();
-    for (i = 0; i < LOOP_MAX; i++) {
-        r += add_ints__extern_local(i, r);
-    }
-    end = libtime_cpu();
-    result.addresult = r;
-    result.addtime = libtime_cpu_to_wall(end - start);
-    start = libtime_cpu();
-    for (i = 0; i < LOOP_MAX; i++) {
-        r += mul_ints__extern_local(i, r);
-    }
-    end = libtime_cpu();
-    result.mulresult = r;
-    result.multime = libtime_cpu_to_wall(end - start);
-
-    return result;
+    casefn(add_ints__extern_local, mul_ints__extern_local);
 }
 
 struct time_result test_static_inline(void)
 {
-    struct time_result result;
-    uint64_t start, end;
-    int i, r = 0;
-
-    start = libtime_cpu();
-    for (i = 0; i < LOOP_MAX; i++) {
-        r += add_ints__static_inline(i, r);
-    }
-    end = libtime_cpu();
-    result.addresult = r;
-    result.addtime = libtime_cpu_to_wall(end - start);
-    start = libtime_cpu();
-    for (i = 0; i < LOOP_MAX; i++) {
-        r += mul_ints__static_inline(i, r);
-    }
-    end = libtime_cpu();
-    result.mulresult = r;
-    result.multime = libtime_cpu_to_wall(end - start);
-
-    return result;
+    casefn(add_ints__static_inline, mul_ints__static_inline);
 }
 
 struct time_result test_extern_inline(void)
 {
-    struct time_result result;
-    uint64_t start, end;
-    int i, r = 0;
-
-    start = libtime_cpu();
-    for (i = 0; i < LOOP_MAX; i++) {
-        r += add_ints__extern_inline(i, r);
-    }
-    end = libtime_cpu();
-    result.addresult = r;
-    result.addtime = libtime_cpu_to_wall(end - start);
-    start = libtime_cpu();
-    for (i = 0; i < LOOP_MAX; i++) {
-        r += mul_ints__extern_inline(i, r);
-    }
-    end = libtime_cpu();
-    result.mulresult = r;
-    result.multime = libtime_cpu_to_wall(end - start);
-
-    return result;
+    casefn(add_ints__extern_inline, mul_ints__extern_inline);
 }
 
 struct time_result test_extern_inline_local(void)
 {
-    struct time_result result;
-    uint64_t start, end;
-    int i, r = 0;
-
-    start = libtime_cpu();
-    for (i = 0; i < LOOP_MAX; i++) {
-        r += add_ints__extern_inline_local(i, r);
-    }
-    end = libtime_cpu();
-    result.addresult = r;
-    result.addtime = libtime_cpu_to_wall(end - start);
-    start = libtime_cpu();
-    for (i = 0; i < LOOP_MAX; i++) {
-        r += mul_ints__extern_inline_local(i, r);
-    }
-    end = libtime_cpu();
-    result.mulresult = r;
-    result.multime = libtime_cpu_to_wall(end - start);
-
-    return result;
+    casefn(add_ints__extern_inline_local, mul_ints__extern_inline_local);
 }
 
 #define TRIAL_CNT 10
