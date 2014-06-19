@@ -82,6 +82,7 @@ struct time_result test_extern_inline_local(void)
 
 #define testfn(_ib_fn, _ib_name) \
     { \
+        printf(_ib_name " functions:\n"); \
         accumulator.addresult = 0; \
         accumulator.addtime = 0; \
         accumulator.mulresult = 0; \
@@ -97,10 +98,7 @@ struct time_result test_extern_inline_local(void)
             lowest.addtime = bmin(lowest.addtime, tmp.addtime); \
             lowest.multime = bmin(lowest.multime, tmp.multime); \
         } \
-        printf(_ib_name " functions:\n"); \
-        printf("Avg. add time: %4lu\t\t(Result: %4d)\n", accumulator.addtime / TRIAL_CNT, accumulator.addresult); \
         printf("Min. add time: %4lu\t\t(Result: %4d)\n", lowest.addtime, accumulator.addresult); \
-        printf("Avg. mul time: %4lu\t\t(Result: %4d)\n", accumulator.multime / TRIAL_CNT, accumulator.mulresult); \
         printf("Min. mul time: %4lu\t\t(Result: %4d)\n", lowest.multime, accumulator.mulresult); \
     }
 
